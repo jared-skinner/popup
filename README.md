@@ -6,7 +6,7 @@ Setup your dev environment in a snap!
 
 ## Introduction
 
-Popup is a tool for configuring a new os instalation to be your own!  This tool is similar to *Ansible* or *Chef* but is much simpler.  
+Popup is a tool for making a fresh OS installation your own.  It takes care of installing and configuring all the packages you need to use.  It handles dependencies, tracking failures, and idempotency.  The tool was inspired by *Ansible* and *Airflow*.
 
 ### Why a New Tool?
 
@@ -49,7 +49,11 @@ main_task.run()
 
 ```
 
-Run popup: `popup example.pu`
+Run popup
+
+```
+popup example.pu
+```
 
 
 ## Tasks Types
