@@ -51,8 +51,9 @@ main_task.run()
 
 This file defined several different *tasks* and composes the tasks.  In our example we are using the following types of tasks: *Git*, *Package*, *Copy*, *Main*.  Each task defines a unit of work to be done.  Here we are installing some packages, cloning a git repository, and copying a file.
 
-NOTE: Each popup file must contain a  Main task.  This task is responsible to orchestrating the rest.
-NOTE: popup files are actually python files.  Feel free to do fancier stuff :).
+*NOTE:* Each popup file must contain a  Main task.  This task is responsible to orchestrating the rest.
+
+*NOTE:* popup files are actually python files.  Feel free to do fancier stuff :).
 
 
 ### Run popup
