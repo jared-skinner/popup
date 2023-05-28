@@ -6,7 +6,7 @@ Setup your dev environment in a snap!
 
 ## Introduction
 
-Popup is a tool for making a fresh OS installation your own.  It takes care of installing and configuring all the packages you need to use.  It handles dependencies, tracking failures, and idempotency.  The tool was inspired by *Ansible* and *Airflow*.
+Popup is a tool for making a fresh OS installation your own.  It takes care of installing and configuring all the packages you need to use.  It handles dependencies, tracking failures, and idempotency.  The tool was inspired by *Ansible* and *Apache Airflow*.
 
 ### Why a New Tool?
 
@@ -31,7 +31,7 @@ TODO: Register in pypi
 ### Create a popup file
 we will call ours `example.pu`:
 
-```
+```py
 dot_files = Git("https://github.com/jared-skinner/terraform")
 
 main_task = Main(name = "test", deps = [
@@ -58,8 +58,8 @@ This file defined several different *tasks* and composes the tasks.  In our exam
 
 ### Run popup
 
-```
-popup example.pu
+```sh
+> popup example.pu
 
 INFO:root:not run tasks:   ['git_https://github.com/jared-skinner/terraform', '']
 INFO:root:ignored tasks:   []
@@ -87,9 +87,9 @@ Popup supports a handful of tasks:
 
 ## Custom Task Types
 
-If you would like to implement your own task types, you can!
+If you would like to implement your own task types, you can!  Create your custom tasks as follows:
 
-```
+```py
 from popup.tasks.base import Base
 
 class CustomTask(Base):
@@ -99,4 +99,12 @@ class CustomTask(Base):
 
     def do_execute(self):
       # how your task works
+```
+
+The import your custom task in your `pu` file:
+
+```pypi
+from custom import CustomTask
+
+# use custom task here
 ```
