@@ -1,0 +1,112 @@
+
+git = Package("git")
+git_group = Group("git", deps=[Bash("setup username", deps=[git]), Bash("setup email", deps=[git])])
+
+dot_files = Git("github.com/jared-skinner/terraform")
+df_path = dot_files.target
+
+zsh = Package("zsh")
+
+# setup neovim
+#
+#   - install neovim
+#   - installnvim dot files 
+#   - install python extensions
+#   - install lanugage servers
+nvim = Package("neovim")
+nvim_group = Group("neovim", deps=[fzf, nvim, dot_files])
+# TODO: Install and update plugins through a task
+
+copy_package_dots = Group(deps = [
+    Copy(
+        src=os.path.join(df_path, "nvim"),
+        dest=os.path.join("~", ".config", "nvim"),
+        deps=[get_dot_files, nvim]
+    ),
+    Copy(
+        src=os.path.join(df_path, "tumx"),
+        dest=os.path.join("~", ".tmux"),
+        deps=[get_dot_files, Package("tumx")]
+    ),
+    Copy(
+        src=os.path.join(df_path, "zsh"),
+        dest=os.path.join("~", ".zsh"),
+        deps=[get_dot_files, Package("zsh")]
+    )
+])
+
+cmd = Group(deps = [
+    copy_package_dots,
+    nvim_group,
+    fzf,
+    git_group,
+    zsh,
+    Package("htop"),
+    Package("ripgrep"),
+])
+
+kids = Group(deps = [
+    Package("scratch")
+])
+
+coding = Group(deps = [
+    Package("docker"),
+    Package("npm"),
+    Package("rust"),
+    Package("go"),
+    Package("gcc"),
+    Package("cgit"),
+])
+
+graphics = Group(deps = [
+    Package("krita"),
+    Package("gimp"),
+    Package("inkscape"),
+    Package("mypaint"),
+    Package("blender"),
+])
+
+math = Group(deps = [
+    Package("xaos"),
+    Package("gmp"),
+    Package("sage")
+])
+
+browsing = Group(deps = [
+    Package("brave"),
+    Package("deluge"),
+    Package("clamav"), # open source  virus protection
+    # TODO: firewall
+    # TODO: password manager
+])
+
+audio = Group(deps = [
+    Package("audacity"),
+    Package("reaper"),
+])
+
+video = Group(deps = [
+    Package("vlc"),
+])
+
+gaming = Group(deps = [
+    Package("steam"),
+    #TODO: emulators and roms
+])
+
+utilities = Group(deps = [
+    Package("alacrity")
+])
+
+office = Group(deps = [
+    Package("anki"),
+    # TODO: LaTeX
+    # TODO: Task warrior?
+])
+
+args = parse_args()
+
+tasks = [cmd]
+
+main_task = Main(deps=tasks)
+main_task.run()
