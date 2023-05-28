@@ -1,2 +1,4 @@
 env
 env/*
+task_cache.db
+__pycache__/*
