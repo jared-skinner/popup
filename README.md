@@ -10,16 +10,15 @@ Popup is a tool for making a fresh OS installation your own.  It takes care of i
 
 ### Why a New Tool?
 
-I wanted something that was easier to use out of the box than Ansible and had features that were difficult to build into a shell script.  In particular I wanted a tool that could:
+I know... there are tools out there already for standing up a new environment: `Ansible`, `Chef`, etc.  I wanted something that was dead-simple to use out of the box but supported some of the fancier features typically found in some of the other solutions.
+
+### Features
 
 * Support arbitrary actions (like running bash commands).
-* Was expressible.
-* Supported dependencies.
-* Tracked task-level status run over run.
-* Would skip steps that had previously completed successfully.
-
-The last requirement promotes idempotency.
-
+* Expressive syntax
+* Supported dependencies between tasks
+* Track the status of individual tasks run-over-run.
+* Task idempotency: If a task completed successfully, on a popup rerun, skip that task.
 
 ## Installation
 
