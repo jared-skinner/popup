@@ -60,6 +60,11 @@ This file defined several different *tasks* and composes the tasks.  In our exam
 
 ```
 popup example.pu
+
+INFO:root:not run tasks:   ['git_https://github.com/jared-skinner/terraform', '']
+INFO:root:ignored tasks:   []
+INFO:root:failed tasks:    ['copy_x_y']
+INFO:root:succeeded tasks: ['package_npm', 'package_neovim', 'package_ripgrep', 'package_ag', 'package_bat', 'package_htop', 'package_fzf', 'package_zsh']
 ```
 
 ## Tasks Types
