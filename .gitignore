@@ -1,4 +1,5 @@
-env
+build/*
 env/*
 task_cache.db
 __pycache__/*
+popup.egg_info/*
