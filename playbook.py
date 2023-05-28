@@ -1,14 +1,14 @@
 import argparse
 
-from popup import Apt, Bash, AppImage, Git, Main, Group
+from tasks import Package, Bash, AppImage, Git, Main, Group
 
-git = Apt("git")
+git = Package("git")
 git_group = Group("git", deps=[Bash("setup username", deps=[git]), Bash("setup email", deps=[git])])
 
 dot_files = Git("github.com/jared-skinner/terraform")
 df_path = dot_files.target
 
-zsh = Apt("zsh")
+zsh = Package("zsh")
 
 # setup neovim
 #
@@ -16,7 +16,7 @@ zsh = Apt("zsh")
 #   - installnvim dot files 
 #   - install python extensions
 #   - install lanugage servers
-nvim = Apt("neovim")
+nvim = Package("neovim")
 nvim_group = Group("neovim", deps=[fzf, nvim, dot_files])
 # TODO: Install and update plugins through a task
 
@@ -29,12 +29,12 @@ copy_package_dots = Group(deps = [
     Copy(
         src=os.path.join(df_path, "tumx"),
         dest=os.path.join("~", ".tmux"),
-        deps=[get_dot_files, Apt("tumx")]
+        deps=[get_dot_files, Package("tumx")]
     ),
     Copy(
         src=os.path.join(df_path, "zsh"),
         dest=os.path.join("~", ".zsh"),
-        deps=[get_dot_files, Apt("zsh")]
+        deps=[get_dot_files, Package("zsh")]
     )
 ])
 
@@ -44,64 +44,65 @@ cmd = Group(deps = [
     fzf,
     git_group,
     zsh,
-    Apt("htop"),
-    Apt("ripgrep"),
+    Package("htop"),
+    Package("ripgrep"),
 ])
 
 kids = Group(deps = [
-    Apt("scratch")
+    Package("scratch")
 ])
 
 coding = Group(deps = [
-    Apt("docker"),
-    Apt("npm"),
-    Apt("rust"),
-    Apt("go"),
-    Apt("gcc"),
-    Apt("cgit"),
+    Package("docker"),
+    Package("npm"),
+    Package("rust"),
+    Package("go"),
+    Package("gcc"),
+    Package("cgit"),
 ])
 
 graphics = Group(deps = [
-    Apt("krita"),
-    Apt("gimp"),
-    Apt("inkscape"),
-    Apt("mypaint"),
-    Apt("blender"),
+    Package("krita"),
+    Package("gimp"),
+    Package("inkscape"),
+    Package("mypaint"),
+    Package("blender"),
 ])
 
 math = Group(deps = [
-    Apt("xaos"),
-    Apt("gmp"),
+    Package("xaos"),
+    Package("gmp"),
+    Package("sage")
 ])
 
 browsing = Group(deps = [
-    Apt("brave"),
-    Apt("deluge"),
-    Apt("clamav"), # open source  virus protection
+    Package("brave"),
+    Package("deluge"),
+    Package("clamav"), # open source  virus protection
     # TODO: firewall
     # TODO: password manager
 ])
 
 audio = Group(deps = [
-    Apt("audacity"),
-    Apt("reaper"),
+    Package("audacity"),
+    Package("reaper"),
 ])
 
 video = Group(deps = [
-    Apt("vlc"),
+    Package("vlc"),
 ])
 
 gaming = Group(deps = [
-    Apt("steam"),
+    Package("steam"),
     #TODO: emulators and roms
 ])
 
 utilities = Group(deps = [
-    Apt("alacrity")
+    Package("alacrity")
 ])
 
 office = Group(deps = [
-    Apt("anki"),
+    Package("anki"),
     # TODO: LaTeX
     # TODO: Task warrior?
 ])
