@@ -1,9 +1,7 @@
 dot_files = Git("https://github.com/jared-skinner/terraform")
 
 main_task = Main(name = "test", deps = [
-    Package("zsh"),
-    Package("fzf"),
-    Package("htop"),
+    Group(name = "test group", deps = [Package("zsh"), Package("fzf"), Package("htop")]),
     Package("bat"),
     Package("ag"),
     Package("ripgrep"),

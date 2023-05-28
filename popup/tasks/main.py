@@ -11,6 +11,9 @@ from popup.tasks.base import BaseTask
 logging.basicConfig(level=logging.DEBUG)
 
 class Main(BaseTask):
+    """
+    Main task file.  A popup configuration should define this once
+    """
     def __init__(self, name, **kwargs):
         logging.debug(f"Initializing Main task: {name}")
         super(Main, self).__init__(name=f"main_{name}", **kwargs)
