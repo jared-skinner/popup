@@ -9,7 +9,11 @@ def parse_args():
         epilog='A program to setup your development environment'
     )
 
+    # TODO: implement
     parser.add_argument("--force", "-f", action="store_true", help="force all tasks to rerun")
+
+    # TODO: implement
+    parser.add_argument("--clear", "-c", action="store_true", help="clear task cache")
 
     parser.add_argument("popup_file")
 
