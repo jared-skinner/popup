@@ -7,7 +7,7 @@ import pickledb
 
 from popup.core.consts import MODULE_ROOT
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 def singleton(orig_cls):
     orig_new = orig_cls.__new__

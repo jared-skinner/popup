@@ -2,7 +2,7 @@ import logging
 
 from popup.tasks.base import BaseTask
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 class Group(BaseTask):
     """

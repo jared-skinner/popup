@@ -14,7 +14,7 @@ from popup.core.consts import (
 from popup.core.utility import Working
 from popup.tasks.base import BaseTask
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 class Bash(BaseTask):
     def __init__(self, comand: str, sudo: bool = False, **kwargs) -> None:

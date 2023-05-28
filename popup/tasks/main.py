@@ -8,7 +8,7 @@ from popup.core.consts import (
 )
 from popup.tasks.base import BaseTask
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 class Main(BaseTask):
     """

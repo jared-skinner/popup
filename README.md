@@ -93,5 +93,5 @@ class CustomTask(Base):
       super(CustomTask, self).__init__(name=f"main_{name}", **kwargs)
 
     def do_execute(self):
-      # how yoru task works
+      # how your task works
 ```
