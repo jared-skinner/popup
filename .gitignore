@@ -1,5 +1,7 @@
 build/*
 env/*
 task_cache.db
+__pycache__
 __pycache__/*
+popup.egg-info
 popup.egg-info/*
