@@ -14,13 +14,17 @@ from popup.core.consts import (
 from popup.core.utility import Working
 from popup.tasks.base import BaseTask
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 class Bash(BaseTask):
-    def __init__(self, comand: str, sudo: bool = False, **kwargs) -> None:
+    def __init__(self, comand: str, sudo: bool = False, name = "", **kwargs) -> None:
         self.comand = comand
         self.sudo = sudo
-        super(Bash, self).__init__(**kwargs)
+
+        if name == "":
+            name = f"bash_{command}"
+
+        super(Bash, self).__init__(name=name, **kwargs)
 
     def do_execute(self) -> None:
         try:
@@ -67,6 +71,8 @@ class Git(Bash):
         self.url = url
         self.working = Working()
 
+        # TODO: remove hardcoding
+        self.target = self.working.get_dir() + "dotfiles"
 
         comand = f"git clone {self.url} {self.working.get_dir()}"
         super(Git, self).__init__(comand=comand, name=f"git_{self.url}", **kwargs)

@@ -21,7 +21,7 @@ from popup.core.utility import (
     Working,
 )
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 class BaseTask():
     def __init__(self, name = "", deps = []) -> None:

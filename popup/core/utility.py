@@ -6,8 +6,13 @@ from tempfile import TemporaryDirectory
 import pickledb
 
 from popup.core.consts import MODULE_ROOT
+from popup.core.errors import (
+    CircularReferenceError,
+    DuplicateTaskName,
+    ToolNotAvailable
+)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 def singleton(orig_cls):
     orig_new = orig_cls.__new__
