@@ -98,7 +98,7 @@ If you would like to implement your own task types, you can!  Create your custom
 from popup.tasks.base import Base
 
 class CustomTask(Base):
-    def __ini__(self, your, arguments, **kwargs):
+    def __init__(self, your, arguments, **kwargs):
       # your initialization stuff goes here
       super(CustomTask, self).__init__(name=f"main_{name}", **kwargs)
 
