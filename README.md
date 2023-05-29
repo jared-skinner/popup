@@ -69,8 +69,6 @@ INFO:root:succeeded tasks: ['package_npm', 'package_neovim', 'package_ripgrep', 
 
 ## Pulling from a URL
 
-TODO - This isn't implemented yet
-
 Popup also supports pulling a popup file from a URL.  This makes it easy to include a popup file in your dot files repo.
 
 
