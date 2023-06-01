@@ -5,6 +5,7 @@ import validators
 
 from popup.core.consts import *
 
+
 def parse_args():
     parser = argparse.ArgumentParser(
         prog='popup',
@@ -35,6 +36,8 @@ def main():
     contents = "from popup.tasks.main import *\n" + contents
     contents = "from popup.tasks.shell import *\n" + contents
     contents = "from popup.tasks.group import *\n" + contents
+    contents = "HOME = os.environ['HOME'] \n" + contents
+
     exec(contents)
 
 if __name__ == "__main__":

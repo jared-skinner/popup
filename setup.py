@@ -10,7 +10,9 @@ setup(
     install_requires=[
         "pickleDB==0.9.2",
         "validators==0.20.0",
-        "requests==2.31.0"
+        "requests==2.31.0",
+        "terminaltables ==3.1.10",
+        "colorclass==2.2.2"
     ],
     entry_points={
         'console_scripts': ['popup=popup.__main__:main']

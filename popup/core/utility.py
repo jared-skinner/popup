@@ -12,7 +12,11 @@ from popup.core.errors import (
     ToolNotAvailable
 )
 
-logging.basicConfig(level=logging.DEBUG)
+import logging
+import logging.config
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("popup")
 
 def singleton(orig_cls):
     orig_new = orig_cls.__new__
@@ -42,8 +46,8 @@ class TaskCache():
         pass
 
     def register(self, task_name: str) -> None:
-        logging.debug(f"Registering task {task_name}")
-        logging.debug(TaskCache.registered_tasks)
+        logger.debug(f"Registering task {task_name}")
+        logger.debug(TaskCache.registered_tasks)
         if task_name in TaskCache.registered_tasks:
             raise DuplicateTaskName(f"Two packages found with the name: {task_name}!")
 
@@ -51,8 +55,8 @@ class TaskCache():
 
     def get_state(self, task_name: str) -> dict[str, str]:
         vals = TaskCache.db.get(task_name)
-        logging.debug(f"Current state for {task_name}")
-        logging.debug(vals)
+        logger.debug(f"Current state for {task_name}")
+        logger.debug(vals)
 
         if vals:
             return vals["state"]
@@ -82,6 +86,7 @@ class Working():
         return self.working_dir.name
 
     def cleanup(self):
+        pass
         if not self.retain:
             self.working_dir.cleanup()
 

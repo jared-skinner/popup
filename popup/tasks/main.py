@@ -1,4 +1,5 @@
-import logging
+from colorclass import Color
+from terminaltables import AsciiTable
 
 from popup.core.consts import (
     STATE_NOT_RUN,
@@ -7,16 +8,27 @@ from popup.core.consts import (
     STATE_IGNORED,
 )
 from popup.tasks.base import BaseTask
-
-logging.basicConfig(level=logging.DEBUG)
+from popup.core.utility import logger
 
 class Main(BaseTask):
     """
     Main task file.  A popup configuration should define this once
     """
     def __init__(self, name, **kwargs):
-        logging.debug(f"Initializing Main task: {name}")
+        logger.debug(f"Initializing Main task: {name}")
         super(Main, self).__init__(name=f"main_{name}", **kwargs)
+
+    def color_by_state(self, task, string):
+        if task.state == STATE_SUCCESS:
+            return Color("{autogreen}" + string + "{/autogreen}")
+        if task.state == STATE_FAILURE:
+            return Color("{autored}" + string + "{/autored}")
+        if task.state == STATE_NOT_RUN:
+            return Color("{autoyellow}" + string + "{/autoyellow}")
+        if task.state == STATE_IGNORED:
+            return Color("{autoblue}" + string + "{/autoblue}")
+
+        return string
 
     def do_cleanup(self):
         failed_tasks = []
@@ -28,9 +40,25 @@ class Main(BaseTask):
         for dep in self.deps:
             dep_stack.append(dep)
 
+
+
+        status_table = [["Task Name", "Status", "Dependencies"]]
+
+        processed_tasks = []
         while dep_stack:
             task = dep_stack.pop()
 
+            if task in processed_tasks:
+                continue
+            else:
+                processed_tasks.append(task)
+
+            # record result in cache
+            # we can expand this later
+            if task.cache:
+                task.task_cache.set(task.name, {"state": task.state})
+
+            state = self.color_by_state(task, task.state)
             if task.state == STATE_SUCCESS:
                 succeeded_tasks.append(task.name)
             elif task.state == STATE_FAILURE:
@@ -40,10 +68,7 @@ class Main(BaseTask):
             elif task.state == STATE_IGNORED:
                 ignored_tasks.append(task.name)
 
-            # record result in cache
-            # we can expand this later
-            if task.cache:
-                task.task_cache.set(task.name, {"state": task.state})
+            status_table.append([task.name, state, " ".join([self.color_by_state(x, x.name) for x in task.deps])])
 
             for dep in task.deps:
                 if dep in failed_tasks + succeeded_tasks + not_run_tasks + ignored_tasks:
@@ -51,10 +76,7 @@ class Main(BaseTask):
 
                 dep_stack.append(dep)
 
-        logging.info(f"not run tasks:   {str(not_run_tasks)}")
-        logging.info(f"ignored tasks:   {str(ignored_tasks)}")
-        logging.info(f"failed tasks:    {str(failed_tasks)}")
-        logging.info(f"succeeded tasks: {str(succeeded_tasks)}")
+        logger.info(f"\n{AsciiTable(status_table).table}")
 
         self.task_cache.persist()
         self.working.cleanup()

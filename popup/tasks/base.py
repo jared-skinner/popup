@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 from shutil import which
 import subprocess as sp
@@ -19,13 +18,12 @@ from popup.core.utility import (
     singleton,
     TaskCache,
     Working,
+    logger,
 )
 
-logging.basicConfig(level=logging.DEBUG)
-
 class BaseTask():
-    def __init__(self, name = "", deps = []) -> None:
-        logging.debug(f"Initializing deps: {deps}")
+    def __init__(self, name = "", deps = [], force = False) -> None:
+        logger.debug(f"Initializing deps: {deps}")
         for dep in deps:
             self.validate_dep(dep)
 
@@ -40,11 +38,13 @@ class BaseTask():
         self.task_cache = self.working.task_cache
         self.task_cache.register(name)
 
+        self.force = force
+
     def validate_dep(self, task) -> None:
         """
         Look for circular dependencies
         """
-        logging.debug(f"validating task {task.name}")
+        logger.debug(f"validating task {task.name}")
         dep_stack = [task]
         while dep_stack:
             dep = dep_stack.pop()
@@ -77,7 +77,7 @@ class BaseTask():
 
     def run(self) -> None:
         cached_state = self.task_cache.get_state(self.name)
-        if cached_state in (STATE_IGNORED, STATE_SUCCESS):
+        if cached_state in (STATE_IGNORED, STATE_SUCCESS) and self.force == False:
             self.state = cached_state
             return
 
