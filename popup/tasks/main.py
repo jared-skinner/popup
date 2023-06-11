@@ -1,5 +1,6 @@
-from colorclass import Color
 from terminaltables import AsciiTable
+from asciidag.graph import Graph
+from asciidag.node import Node
 
 from popup.core.consts import (
     STATE_NOT_RUN,
@@ -17,18 +18,6 @@ class Main(BaseTask):
     def __init__(self, name, **kwargs):
         logger.debug(f"Initializing Main task: {name}")
         super(Main, self).__init__(name=f"main_{name}", **kwargs)
-
-    def color_by_state(self, task, string):
-        if task.state == STATE_SUCCESS:
-            return Color("{autogreen}" + string + "{/autogreen}")
-        if task.state == STATE_FAILURE:
-            return Color("{autored}" + string + "{/autored}")
-        if task.state == STATE_NOT_RUN:
-            return Color("{autoyellow}" + string + "{/autoyellow}")
-        if task.state == STATE_IGNORED:
-            return Color("{autoblue}" + string + "{/autoblue}")
-
-        return string
 
     def do_cleanup(self):
         failed_tasks = []
@@ -80,3 +69,9 @@ class Main(BaseTask):
 
         self.task_cache.persist()
         self.working.cleanup()
+
+    def graph(self):
+        graph = Graph()
+
+        nodes = self.get_graph_node()
+        graph.show_nodes([nodes])

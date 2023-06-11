@@ -1,8 +1,11 @@
+from colorclass import Color
 from pathlib import Path
 from shutil import which
 import subprocess as sp
 from sys import platform, stdout
 from typing import Optional
+from asciidag.graph import Graph
+from asciidag.node import Node
 
 from popup.core.consts import (
     STATE_NOT_RUN,
@@ -39,6 +42,18 @@ class BaseTask():
         self.task_cache.register(name)
 
         self.force = force
+
+    def color_by_state(self, task, string):
+        if task.state == STATE_SUCCESS:
+            return Color("{autogreen}" + string + "{/autogreen}")
+        if task.state == STATE_FAILURE:
+            return Color("{autored}" + string + "{/autored}")
+        if task.state == STATE_NOT_RUN:
+            return Color("{autoyellow}" + string + "{/autoyellow}")
+        if task.state == STATE_IGNORED:
+            return Color("{autoblue}" + string + "{/autoblue}")
+
+        return string
 
     def validate_dep(self, task) -> None:
         """
@@ -87,6 +102,20 @@ class BaseTask():
             self.do_execute()
 
         self.do_cleanup()
+
+    def get_graph_node(self) -> None:
+        parents = []
+        for dep in self.deps:
+            parents.append(dep.get_graph_node())
+
+        cached_state = self.task_cache.get_state(self.name)
+        if cached_state:
+            self.state = cached_state
+            title = self.color_by_state(self, self.name + " - " + cached_state)
+        else:
+            title = self.color_by_state(self, self.name + " - " + STATE_NOT_RUN)
+
+        return Node(title, parents=parents)
 
     def do_execute(self):
         """

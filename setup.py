@@ -12,7 +12,8 @@ setup(
         "validators==0.20.0",
         "requests==2.31.0",
         "terminaltables ==3.1.10",
-        "colorclass==2.2.2"
+        "colorclass==2.2.2",
+        "asciidag==0.2.0",
     ],
     entry_points={
         'console_scripts': ['popup=popup.__main__:main']

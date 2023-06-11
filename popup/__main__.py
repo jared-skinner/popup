@@ -19,6 +19,8 @@ def parse_args():
     # TODO: implement
     parser.add_argument("--clear", "-c", action="store_true", help="clear task cache")
 
+    parser.add_argument("--graph", "-g", action="store_true", help="display a the dependency graph with status information")
+
     parser.add_argument("popup_path")
 
     return parser.parse_args()
@@ -33,12 +35,12 @@ def main():
         with open(args.popup_path, 'r') as f:
             contents = f.read()
 
-    contents = "from popup.tasks.main import *\n" + contents
-    contents = "from popup.tasks.shell import *\n" + contents
-    contents = "from popup.tasks.group import *\n" + contents
-    contents = "HOME = os.environ['HOME'] \n" + contents
+        if args.graph:
+            contents += "\nmain_task.graph()"
+        else:
+            contents += "\nmain_task.run()"
 
-    exec(contents)
+        exec(contents)
 
 if __name__ == "__main__":
     main()
